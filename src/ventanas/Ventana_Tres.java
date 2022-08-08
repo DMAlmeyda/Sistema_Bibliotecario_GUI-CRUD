@@ -1,12 +1,22 @@
 
 package ventanas;
 
+import javax.swing.JOptionPane;
+import clases.Conexion;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 public class Ventana_Tres extends javax.swing.JFrame {
 
    
     public Ventana_Tres() {
         initComponents();
+        Mostrar();
         this.setLocationRelativeTo(null);
     }
 
@@ -28,10 +38,10 @@ public class Ventana_Tres extends javax.swing.JFrame {
         txt_titulo = new javax.swing.JTextField();
         txt_Genero = new javax.swing.JTextField();
         txt_Precio = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        txt_Cantidad = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txt_ID = new javax.swing.JTextField();
         btn_buscar = new javax.swing.JButton();
         btn_volver = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -51,20 +61,45 @@ public class Ventana_Tres extends javax.swing.JFrame {
                 "ID", "Titulo", "Genero", "Precio", "Unidades"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 306, 552, 171));
 
         btn_registro.setText("Registrar");
+        btn_registro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_registroActionPerformed(evt);
+            }
+        });
         getContentPane().add(btn_registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(59, 256, -1, -1));
 
         btn_modificar.setText("Modificar");
+        btn_modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modificarActionPerformed(evt);
+            }
+        });
         getContentPane().add(btn_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(188, 256, -1, -1));
 
         btn_eliminar.setText("Eliminar");
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
         getContentPane().add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(327, 256, -1, -1));
 
         btn_limpiar.setText("Limpiar");
+        btn_limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_limpiarActionPerformed(evt);
+            }
+        });
         getContentPane().add(btn_limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(456, 256, -1, -1));
 
         jLabel1.setForeground(new java.awt.Color(242, 247, 229));
@@ -82,16 +117,10 @@ public class Ventana_Tres extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Cantidad L/u");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(72, 195, -1, -1));
-
-        txt_titulo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_tituloActionPerformed(evt);
-            }
-        });
         getContentPane().add(txt_titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(171, 83, 109, -1));
         getContentPane().add(txt_Genero, new org.netbeans.lib.awtextra.AbsoluteConstraints(171, 119, 109, -1));
         getContentPane().add(txt_Precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(171, 155, 109, -1));
-        getContentPane().add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(171, 191, 109, -1));
+        getContentPane().add(txt_Cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(171, 191, 109, -1));
 
         jLabel5.setFont(new java.awt.Font("Cambria", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -101,7 +130,9 @@ public class Ventana_Tres extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("ID");
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, -1, -1));
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 50, 110, -1));
+
+        txt_ID.setEnabled(false);
+        getContentPane().add(txt_ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 50, 110, -1));
 
         btn_buscar.setText("Buscar");
         getContentPane().add(btn_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, -1, -1));
@@ -121,15 +152,158 @@ public class Ventana_Tres extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txt_tituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_tituloActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_tituloActionPerformed
-
     private void btn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_volverActionPerformed
         dispose();
         new Ventana_Dos().setVisible(true);
     }//GEN-LAST:event_btn_volverActionPerformed
 
+    private void btn_registroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registroActionPerformed
+        String titulo = txt_titulo.getText();
+        String genero = txt_Genero.getText();
+        String precio = txt_Precio.getText();
+        String cantidad = txt_Cantidad.getText();
+                
+        if(!titulo.equals("") && !genero.equals("") && !precio.equals("") && !cantidad.equals("")){
+            try{
+                Connection cn = Conexion.conectar();
+                PreparedStatement pst = cn.prepareStatement("insert into libros values(?,?,?,?,?)");
+                pst.setString(1, "0");
+                pst.setString(2, titulo);
+                pst.setString(3, genero);
+                pst.setString(4, precio);
+                pst.setString(5, cantidad);
+                pst.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Registro exitoso");
+                txt_titulo.setText("");
+                txt_Genero.setText("");
+                txt_Precio.setText("");
+                txt_Cantidad.setText("");
+                Mostrar();
+            }catch(Exception e){
+                System.out.println(e);
+                JOptionPane.showMessageDialog(null, "Error, no se pudo establecer la conexion");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Verifique que todos los campos esten rellenos");
+        }
+    }//GEN-LAST:event_btn_registroActionPerformed
+
+    private void btn_limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_limpiarActionPerformed
+            txt_ID.setText("");
+            txt_titulo.setText("");
+            txt_Genero.setText("");
+            txt_Precio.setText("");
+            txt_Cantidad.setText("");
+    }//GEN-LAST:event_btn_limpiarActionPerformed
+
+    private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
+        String ID = txt_ID.getText();
+        String titulo = txt_titulo.getText();
+        String genero = txt_Genero.getText();
+        String precio = txt_Precio.getText();
+        String cantidad = txt_Cantidad.getText();
+        if(!titulo.equals("") && !genero.equals("") && !precio.equals("") && !cantidad.equals("")){
+            try {
+                Connection cn  = Conexion.conectar();
+                PreparedStatement pst = cn.prepareStatement("update libros set Titulo = ?, Genero = ?, Precio = ?,Cantidad = ? Where ID = " + ID);
+                pst.setString(1, titulo);
+                pst.setString(2, genero);
+                pst.setString(3, precio);
+                pst.setString(4, cantidad);
+                pst.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Modificacion exitosa");
+                txt_titulo.setText("");
+                txt_Genero.setText("");
+                txt_Precio.setText("");
+                txt_Cantidad.setText("");
+                Mostrar();
+            } catch (SQLException ex) {
+                 System.out.println(ex);
+                 JOptionPane.showMessageDialog(null, "Error al comunicarse con la base de datos");
+            }
+        }else{
+             JOptionPane.showMessageDialog(null, "Verifique que todos los campos esten rellenos");
+        }
+    }//GEN-LAST:event_btn_modificarActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        String tb1_ID = model.getValueAt(jTable1.getSelectedRow(), 0).toString();
+        String tb1_Titulo = model.getValueAt(jTable1.getSelectedRow(), 1).toString();
+        String tb1_Genero = model.getValueAt(jTable1.getSelectedRow(), 2).toString();
+        String tb1_Precio = model.getValueAt(jTable1.getSelectedRow(), 3).toString();
+        String tb1_Cantidad = model.getValueAt(jTable1.getSelectedRow(), 4).toString();
+        
+        txt_ID.setText(tb1_ID);
+        txt_titulo.setText(tb1_Titulo);
+        txt_Genero.setText(tb1_Genero);
+        txt_Precio.setText(tb1_Precio);
+        txt_Cantidad.setText(tb1_Cantidad);
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        String ID = txt_ID.getText();
+        String titulo = txt_titulo.getText();
+        String genero = txt_Genero.getText();
+        String precio = txt_Precio.getText();
+        String cantidad = txt_Cantidad.getText();
+        if(!titulo.equals("") && !genero.equals("") && !precio.equals("") && !cantidad.equals("")){
+            try{
+                Connection cn = Conexion.conectar();
+                PreparedStatement pst = cn.prepareStatement("Delete FROM libros Where ID = ?");
+                pst.setString(1, ID);
+                pst.execute();
+                JOptionPane.showMessageDialog(null, "Producto Eliminado");
+                 txt_ID.setText("");
+                 txt_titulo.setText("");
+                 txt_Genero.setText("");
+                 txt_Precio.setText("");
+                 txt_Cantidad.setText("");
+                 Mostrar();
+            }catch(Exception e){
+                System.out.println(e);
+                JOptionPane.showMessageDialog(null, "Error al comunicarse con la base de datos");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Verifique que todos los campos esten rellenos");
+        }
+    }//GEN-LAST:event_btn_eliminarActionPerformed
+    public void Mostrar(){
+         try {
+            DefaultTableModel model = new DefaultTableModel();
+            Connection cn = Conexion.conectar();
+            PreparedStatement pst = cn.prepareStatement(
+                    "select ID, Titulo, Genero,Precio,Cantidad from libros");
+
+            ResultSet rs = pst.executeQuery();
+
+            jTable1.setModel(model);
+            jScrollPane1.setViewportView(jTable1);
+
+            
+            model.addColumn("ID");
+            model.addColumn("Titulo");
+            model.addColumn("Genero");
+            model.addColumn("Precio");
+            model.addColumn("Unidades");
+
+            while (rs.next()) {
+                Object[] fila = new Object[5];
+
+                for (int i = 0; i < 5; i++) {
+                    fila[i] = rs.getObject(i + 1);
+
+                }
+                model.addRow(fila);
+            }
+
+            cn.close();
+
+        } catch (SQLException e) {
+            System.err.println("Error al llenar tabla." + e);
+            JOptionPane.showMessageDialog(null, "Error al mostrar información, ¡Contacte al administrador!");
+        }
+    }
    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -179,9 +353,9 @@ public class Ventana_Tres extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField txt_Cantidad;
     private javax.swing.JTextField txt_Genero;
+    private javax.swing.JTextField txt_ID;
     private javax.swing.JTextField txt_Precio;
     private javax.swing.JTextField txt_titulo;
     // End of variables declaration//GEN-END:variables
