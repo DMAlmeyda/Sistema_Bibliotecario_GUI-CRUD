@@ -1,19 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package ventanas;
-
 
 public class Ventana_Dos extends javax.swing.JFrame {
 
-    
     public Ventana_Dos() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
 
-   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

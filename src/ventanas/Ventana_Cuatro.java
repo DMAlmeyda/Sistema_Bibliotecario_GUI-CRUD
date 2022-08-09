@@ -1,19 +1,17 @@
-
 package ventanas;
 
 import clases.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
+
 public class Ventana_Cuatro extends javax.swing.JFrame {
 
-   
     public Ventana_Cuatro() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
 
-   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -76,28 +74,27 @@ public class Ventana_Cuatro extends javax.swing.JFrame {
     private void btn_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AgregarActionPerformed
         String user = txt_user.getText().trim();
         String pass = txt_password.getText().trim();
-        if(!user.equals("") && !pass.equals("")){
-            try{
+        if (!user.equals("") && !pass.equals("")) {
+            try {
                 Connection cn = Conexion.conectar();
                 PreparedStatement pst = cn.prepareStatement("insert into usuarios values(?,?,?)");
                 pst.setString(1, "0");
                 pst.setString(2, user);
                 pst.setString(3, pass);
                 pst.executeUpdate();
-                
+
                 txt_user.setText("");
                 txt_password.setText("");
                 JOptionPane.showMessageDialog(null, "Registro exitoso");
-            }catch(Exception e){
-                 System.out.println(e);
-                 JOptionPane.showMessageDialog(null, "Error al comunicarse con el servidor");
+            } catch (Exception e) {
+                System.out.println(e);
+                JOptionPane.showMessageDialog(null, "Error al comunicarse con el servidor");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Verifique que ambos espacios esten rellenos");
         }
     }//GEN-LAST:event_btn_AgregarActionPerformed
 
-   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

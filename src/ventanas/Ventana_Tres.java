@@ -1,4 +1,3 @@
-
 package ventanas;
 
 import javax.swing.JOptionPane;
@@ -10,17 +9,22 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.HeadlessException;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 public class Ventana_Tres extends javax.swing.JFrame {
 
-   
     public Ventana_Tres() {
         initComponents();
         Mostrar();
         this.setLocationRelativeTo(null);
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -42,8 +46,11 @@ public class Ventana_Tres extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txt_ID = new javax.swing.JTextField();
-        btn_buscar = new javax.swing.JButton();
         btn_volver = new javax.swing.JButton();
+        btn_Buscar = new javax.swing.JButton();
+        txt_buscar = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        btn_PDF = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -103,8 +110,8 @@ public class Ventana_Tres extends javax.swing.JFrame {
         getContentPane().add(btn_limpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(456, 256, -1, -1));
 
         jLabel1.setForeground(new java.awt.Color(242, 247, 229));
-        jLabel1.setText("Titulo");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(111, 87, -1, -1));
+        jLabel1.setText("Titulo del libro");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 170, -1, -1));
 
         jLabel2.setForeground(new java.awt.Color(255, 250, 247));
         jLabel2.setText("Genero");
@@ -134,9 +141,6 @@ public class Ventana_Tres extends javax.swing.JFrame {
         txt_ID.setEnabled(false);
         getContentPane().add(txt_ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 50, 110, -1));
 
-        btn_buscar.setText("Buscar");
-        getContentPane().add(btn_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, -1, -1));
-
         btn_volver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Arrow.png"))); // NOI18N
         btn_volver.setContentAreaFilled(false);
         btn_volver.addActionListener(new java.awt.event.ActionListener() {
@@ -145,6 +149,27 @@ public class Ventana_Tres extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_volver, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 80, 50));
+
+        btn_Buscar.setText("Buscar");
+        btn_Buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_BuscarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_Buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 190, -1, -1));
+        getContentPane().add(txt_buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 200, 100, -1));
+
+        jLabel8.setForeground(new java.awt.Color(242, 247, 229));
+        jLabel8.setText("Titulo");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(111, 87, -1, -1));
+
+        btn_PDF.setText("Generar PDF");
+        btn_PDF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_PDFActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_PDF, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 110, -1, -1));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/image_Background3.jpg"))); // NOI18N
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 570, 490));
@@ -162,9 +187,9 @@ public class Ventana_Tres extends javax.swing.JFrame {
         String genero = txt_Genero.getText();
         String precio = txt_Precio.getText();
         String cantidad = txt_Cantidad.getText();
-                
-        if(!titulo.equals("") && !genero.equals("") && !precio.equals("") && !cantidad.equals("")){
-            try{
+
+        if (!titulo.equals("") && !genero.equals("") && !precio.equals("") && !cantidad.equals("")) {
+            try {
                 Connection cn = Conexion.conectar();
                 PreparedStatement pst = cn.prepareStatement("insert into libros values(?,?,?,?,?)");
                 pst.setString(1, "0");
@@ -179,21 +204,22 @@ public class Ventana_Tres extends javax.swing.JFrame {
                 txt_Precio.setText("");
                 txt_Cantidad.setText("");
                 Mostrar();
-            }catch(Exception e){
+            } catch (Exception e) {
                 System.out.println(e);
                 JOptionPane.showMessageDialog(null, "Error, no se pudo establecer la conexion");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Verifique que todos los campos esten rellenos");
         }
     }//GEN-LAST:event_btn_registroActionPerformed
 
     private void btn_limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_limpiarActionPerformed
-            txt_ID.setText("");
-            txt_titulo.setText("");
-            txt_Genero.setText("");
-            txt_Precio.setText("");
-            txt_Cantidad.setText("");
+        txt_ID.setText("");
+        txt_titulo.setText("");
+        txt_Genero.setText("");
+        txt_Precio.setText("");
+        txt_Cantidad.setText("");
+        txt_buscar.setText("");
     }//GEN-LAST:event_btn_limpiarActionPerformed
 
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
@@ -202,9 +228,9 @@ public class Ventana_Tres extends javax.swing.JFrame {
         String genero = txt_Genero.getText();
         String precio = txt_Precio.getText();
         String cantidad = txt_Cantidad.getText();
-        if(!titulo.equals("") && !genero.equals("") && !precio.equals("") && !cantidad.equals("")){
+        if (!titulo.equals("") && !genero.equals("") && !precio.equals("") && !cantidad.equals("")) {
             try {
-                Connection cn  = Conexion.conectar();
+                Connection cn = Conexion.conectar();
                 PreparedStatement pst = cn.prepareStatement("update libros set Titulo = ?, Genero = ?, Precio = ?,Cantidad = ? Where ID = " + ID);
                 pst.setString(1, titulo);
                 pst.setString(2, genero);
@@ -218,22 +244,22 @@ public class Ventana_Tres extends javax.swing.JFrame {
                 txt_Cantidad.setText("");
                 Mostrar();
             } catch (SQLException ex) {
-                 System.out.println(ex);
-                 JOptionPane.showMessageDialog(null, "Error al comunicarse con la base de datos");
+                System.out.println(ex);
+                JOptionPane.showMessageDialog(null, "Error al comunicarse con la base de datos");
             }
-        }else{
-             JOptionPane.showMessageDialog(null, "Verifique que todos los campos esten rellenos");
+        } else {
+            JOptionPane.showMessageDialog(null, "Verifique que todos los campos esten rellenos");
         }
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         String tb1_ID = model.getValueAt(jTable1.getSelectedRow(), 0).toString();
         String tb1_Titulo = model.getValueAt(jTable1.getSelectedRow(), 1).toString();
         String tb1_Genero = model.getValueAt(jTable1.getSelectedRow(), 2).toString();
         String tb1_Precio = model.getValueAt(jTable1.getSelectedRow(), 3).toString();
         String tb1_Cantidad = model.getValueAt(jTable1.getSelectedRow(), 4).toString();
-        
+
         txt_ID.setText(tb1_ID);
         txt_titulo.setText(tb1_Titulo);
         txt_Genero.setText(tb1_Genero);
@@ -247,29 +273,93 @@ public class Ventana_Tres extends javax.swing.JFrame {
         String genero = txt_Genero.getText();
         String precio = txt_Precio.getText();
         String cantidad = txt_Cantidad.getText();
-        if(!titulo.equals("") && !genero.equals("") && !precio.equals("") && !cantidad.equals("")){
-            try{
+        if (!titulo.equals("") && !genero.equals("") && !precio.equals("") && !cantidad.equals("")) {
+            try {
                 Connection cn = Conexion.conectar();
                 PreparedStatement pst = cn.prepareStatement("Delete FROM libros Where ID = ?");
                 pst.setString(1, ID);
                 pst.execute();
                 JOptionPane.showMessageDialog(null, "Producto Eliminado");
-                 txt_ID.setText("");
-                 txt_titulo.setText("");
-                 txt_Genero.setText("");
-                 txt_Precio.setText("");
-                 txt_Cantidad.setText("");
-                 Mostrar();
-            }catch(Exception e){
+                txt_ID.setText("");
+                txt_titulo.setText("");
+                txt_Genero.setText("");
+                txt_Precio.setText("");
+                txt_Cantidad.setText("");
+                Mostrar();
+            } catch (Exception e) {
                 System.out.println(e);
                 JOptionPane.showMessageDialog(null, "Error al comunicarse con la base de datos");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Verifique que todos los campos esten rellenos");
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
-    public void Mostrar(){
-         try {
+
+    private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed
+        String buscar = txt_buscar.getText();
+        if (!buscar.equals("")) {
+            try {
+                Connection cn = Conexion.conectar();
+                PreparedStatement pst = cn.prepareStatement("select * from libros where Titulo = ?");
+                pst.setString(1, buscar);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    txt_ID.setText(rs.getString("ID"));
+                    txt_titulo.setText(rs.getString("Titulo"));
+                    txt_Genero.setText(rs.getString("Genero"));
+                    txt_Precio.setText(rs.getString("Precio"));
+                    txt_Cantidad.setText(rs.getString("Cantidad"));
+                } else {
+                    JOptionPane.showMessageDialog(null, "El libro solicitado no esta en el inventario");
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+                JOptionPane.showMessageDialog(null, "Error al comunicarse con la base de datos");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "El campo esta vacio");
+        }
+    }//GEN-LAST:event_btn_BuscarActionPerformed
+
+    private void btn_PDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_PDFActionPerformed
+        Document documento = new Document();
+        try {
+            String ruta = System.getProperty("user.home");
+            PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/Lista de libros.pdf"));
+            documento.open();
+            PdfPTable tabla = new PdfPTable(5);
+            tabla.addCell("ID");
+            tabla.addCell("Titulo");
+            tabla.addCell("Genero");
+            tabla.addCell("Precio");
+            tabla.addCell("Cantidad");
+            try {
+                Connection cn = Conexion.conectar();
+                PreparedStatement pst = cn.prepareStatement("select * from libros");
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    do {
+                        tabla.addCell(rs.getString(1));
+                        tabla.addCell(rs.getString(2));
+                        tabla.addCell(rs.getString(3));
+                        tabla.addCell(rs.getString(4));
+                        tabla.addCell(rs.getString(5));
+                    } while (rs.next());
+                    documento.add(tabla);
+                }
+            } catch (DocumentException | SQLException e) {
+                System.out.println(e);
+                JOptionPane.showMessageDialog(null, "Error al comunicarse con la base de datos");
+            }
+            documento.close();
+            JOptionPane.showMessageDialog(null, "Listado creado");
+        } catch (DocumentException | HeadlessException | FileNotFoundException e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, "Error al crear el pdf");
+        }
+    }//GEN-LAST:event_btn_PDFActionPerformed
+    public void Mostrar() {
+        try {
             DefaultTableModel model = new DefaultTableModel();
             Connection cn = Conexion.conectar();
             PreparedStatement pst = cn.prepareStatement(
@@ -280,7 +370,6 @@ public class Ventana_Tres extends javax.swing.JFrame {
             jTable1.setModel(model);
             jScrollPane1.setViewportView(jTable1);
 
-            
             model.addColumn("ID");
             model.addColumn("Titulo");
             model.addColumn("Genero");
@@ -304,7 +393,7 @@ public class Ventana_Tres extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error al mostrar información, ¡Contacte al administrador!");
         }
     }
-   
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -338,7 +427,8 @@ public class Ventana_Tres extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_buscar;
+    private javax.swing.JButton btn_Buscar;
+    private javax.swing.JButton btn_PDF;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_limpiar;
     private javax.swing.JButton btn_modificar;
@@ -351,12 +441,14 @@ public class Ventana_Tres extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField txt_Cantidad;
     private javax.swing.JTextField txt_Genero;
     private javax.swing.JTextField txt_ID;
     private javax.swing.JTextField txt_Precio;
+    private javax.swing.JTextField txt_buscar;
     private javax.swing.JTextField txt_titulo;
     // End of variables declaration//GEN-END:variables
 }
