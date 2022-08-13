@@ -1,7 +1,8 @@
 # TABLA DE CONTENIDOS
-- [Tecnologias](#Tecnologias)
+- [Tecnologias](#tecnologias)
 - [Heading](#heading-1)
-  + [Sub-heading](#sub-heading-1)
+  * [Sub-heading](#sub-heading-1)
+    + [Sub-sub-heading](#sub-sub-heading-1)
    
  
 
