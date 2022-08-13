@@ -19,35 +19,35 @@ quienes pueden usar su aplicacion mediante un sistema de login. La aplicacion al
 <!-- toc -->
 
 ## Tecnologias
-Database: MySQL
+* Database: MySQL
 
-Lenguaje de programacion: JAVA
+* Lenguaje de programacion: JAVA
 
-Administrador de base de datos: PHPmyadmin
+* Administrador de base de datos: PHPmyadmin
 
-Para usar un servidor local de forma sencilla: XAMPP
+* Para usar un servidor local de forma sencilla: XAMPP
 
-Librerias: iText(para gestionar y crear pdf), Swing(biblioteca grafica)
+* Librerias: iText(para gestionar y crear pdf), Swing(biblioteca grafica)
 
 ## Orden
 
 El orden esta dividido en tres paquetes
 
-Paquete clases:
+* Paquete clases:
 Tiene la clase conexion
 
 https://github.com/DMAlmeyda/Sistema_Bibliotecario_GUI-CRUD/blob/6a995216cc0771a9d5a13d26dae76b0aab75cb53/src/clases/Conexion.java#L1-L15
 
-Paquete images:
+* Paquete images:
 Tiene todas las imagenes utilizadas para la parte estetica de la aplicacion
 
-Paquete ventanas:
+* Paquete ventanas:
 Tiene todas las ventanas graficas que se usan en la aplicacion con sus respectivas funciones.
 
 
 ## Funcionamiento
 
-Breve explicacion de los funcionamientos de este programa y de como se crearon
+* Breve explicacion de los funcionamientos de este programa y de como se crearon
 
 ### Ventana_1
 
@@ -84,24 +84,24 @@ La ventana 3 es la que tiene el funcionamiento principal de la aplicacion, es do
 
 Donde tiene varios botones con diversas funciones y una tabla con eventos cuando alguien hace un click en ellos
 
-Esta el boton registro, el cual se encargara de registrar los libros que queramos en una base de datos(local).
+* Esta el boton registro, el cual se encargara de registrar los libros que queramos en una base de datos(local).
 
 https://github.com/DMAlmeyda/Sistema_Bibliotecario_GUI-CRUD/blob/6a995216cc0771a9d5a13d26dae76b0aab75cb53/src/ventanas/Ventana_Tres.java#L185-L213
 
-Esta el boton modificar, en donde al hacer click en una fila de la tabla se llenara automaticamente los campos en donde podras modificar lo que necesites(la modificacion se hace a partir del ID)
+* Esta el boton modificar, en donde al hacer click en una fila de la tabla se llenara automaticamente los campos en donde podras modificar lo que necesites(la modificacion se hace a partir del ID)
 y se actualizara la base de datos con la modificacion realizada
 
 https://github.com/DMAlmeyda/Sistema_Bibliotecario_GUI-CRUD/blob/6a995216cc0771a9d5a13d26dae76b0aab75cb53/src/ventanas/Ventana_Tres.java#L225-L253
 
-Esta el boton eliminar, en donde sucede lo mismo que con el de modificar, pero la diferencia que los elimina de la base de datos a partir del ID
+* Esta el boton eliminar, en donde sucede lo mismo que con el de modificar, pero la diferencia que los elimina de la base de datos a partir del ID
 
 https://github.com/DMAlmeyda/Sistema_Bibliotecario_GUI-CRUD/blob/6a995216cc0771a9d5a13d26dae76b0aab75cb53/src/ventanas/Ventana_Tres.java#L270-L296
 
-Esta el boton buscar por titulo en donde el usuario puede realizar una busqueda si tiene stock de un libro en este caso en vez de usar el ID para buscar usaremos el titulo y rellenara los campos con los datos del libro que busquemos en caso de encontrarlo
+* Esta el boton buscar por titulo en donde el usuario puede realizar una busqueda si tiene stock de un libro en este caso en vez de usar el ID para buscar usaremos el titulo y rellenara los campos con los datos del libro que busquemos en caso de encontrarlo
 
 https://github.com/DMAlmeyda/Sistema_Bibliotecario_GUI-CRUD/blob/6a995216cc0771a9d5a13d26dae76b0aab75cb53/src/ventanas/Ventana_Tres.java#L298-L322
 
-Esta el boton generar pdf el cual nos genera un pdf con el contenido que tengamos en nuestra tabla y lo aloja en el escritorio
+* Esta el boton generar pdf el cual nos genera un pdf con el contenido que tengamos en nuestra tabla y lo aloja en el escritorio
 
 https://github.com/DMAlmeyda/Sistema_Bibliotecario_GUI-CRUD/blob/6a995216cc0771a9d5a13d26dae76b0aab75cb53/src/ventanas/Ventana_Tres.java#L324-L360
 
